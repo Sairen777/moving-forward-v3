@@ -1,0 +1,47 @@
+---
+layout: post
+title: The Clean Cutover
+titleTemplate: ":title · moving forward"
+description: Why I stopped shipping migrations with a trapdoor, and started treating the deletion of the old path as part of the feature.
+date: 2024.11.18
+tag: essay
+readTime: 7 min read
+---
+
+For a long time I shipped every migration with a trapdoor. A new path behind a flag, the old path left in place in case the new one misbehaved, and a quiet fallback that caught whatever slipped through. It felt like the responsible thing to do. If the replacement broke at two in the morning, the old code would carry the load and nobody would have to wake up.
+
+The trouble is that the trapdoor never closes on its own. The flag that was supposed to live for a week is still there a year later, and by then nobody remembers which path actually runs in production, or whether it is safe to find out.
+
+## The shim that never leaves
+
+A compatibility shim starts as a kindness to your future self and slowly becomes a tax on everyone who reads the file. It usually takes a shape like this:
+
+```python
+def resolve_user(req):
+    if FLAGS.new_auth:  # added "for a week" in March
+        return AuthService.resolve(req)
+    return legacy_lookup(req.token)  # nobody calls this now
+```
+
+Both branches still have tests. Both still compile. The new branch handles every real request, and the old one sits there as insurance whose premium is paid in attention. Everyone who opens `resolve_user` now has to understand two authentication systems and guess which one matters today.
+
+## What two systems cost
+
+The cost is not the extra lines. Lines are cheap. The real cost is that the seam between the two paths is the least tested part of the whole system, and it is exactly where the surprising bugs live. You find yourself reasoning about states that should not exist: what happens when the flag flips mid request, when the legacy lookup returns a slightly different shape, when some caller quietly depends on a quirk of the path you meant to retire.
+
+> A fallback you never exercise is not a safety net. It is a second system you forgot you were maintaining.
+
+Worse, the fallback teaches everyone the wrong lesson. It says the new path is not really trusted, so the next person adds their own guard, and the one after that adds another, until the function is mostly apology and the original logic is hard to find.
+
+## Cutting over
+
+A clean cutover is less comfortable on the day you ship it and far cheaper every day after. You move the callers, you delete the old path in the same change, and you let the new path stand on its own. In practice that has looked like this for me:
+
+- Migrate every caller to the new path first, in its own small reviewed change.
+- Remove the flag and the old branch together, so the diff that turns the new path on is the diff that deletes the alternative.
+- Keep the failure loud. If the new path breaks I want a clear error at the source, not a silent slide back into code I meant to remove.
+- Watch it in production for a real cycle before I call the migration done.
+
+I have started treating the deletion as part of the feature rather than a chore to schedule for later, a habit I keep returning to in [Deleting Code as a Feature](/#writing). The migration is not finished when the new path works. It is finished when the old one is gone.
+
+The version with a trapdoor feels safer the day you ship it. The version without one is the version you can still understand six months later, when the person reading the file is you, and you have forgotten every reason the fallback was there.

@@ -1,0 +1,26 @@
+.root {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+.rail {
+  position: relative;
+  max-width: var(--rail);
+  min-height: calc(100vh - 90px);
+  margin: 0 auto;
+}
+
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--paper) 0%,
+    rgba(255, 255, 255, 0.8) 28%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}

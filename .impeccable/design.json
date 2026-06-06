@@ -25,7 +25,7 @@
     "motion": [
       { "name": "ease-standard", "value": "0.2s ease", "purpose": "Nav-link color and title-underline transitions on hover and focus." },
       { "name": "cursor-blink", "value": "blink 1.25s steps(1) infinite", "purpose": "The brand's resting cursor. A quiet live cue; aria-hidden and disabled under reduced motion." },
-      { "name": "field-sway", "value": "requestAnimationFrame ~12fps; traveling vertically-sheared horizontal wave, vertical coupled to bend squared (arc dip, not an independent oscillator)", "purpose": "Directional wind on the wheat, never a circular orbit. Seam-safe across tiles; sky static. Animates on the index; an article reading view renders one static frame so nothing moves while reading; same static frame under prefers-reduced-motion." }
+      { "name": "field-sway", "value": "field-data.js byte grid rendered by field-renderer.js to canvas; requestAnimationFrame ~12fps; traveling vertically-sheared horizontal wave, vertical coupled to bend squared (arc dip, not an independent oscillator)", "purpose": "Directional wind on the wheat, never a circular orbit. Seam-safe across tiles; sky static. Animates on the index; an article reading view renders one static frame so nothing moves while reading; same static frame under prefers-reduced-motion." }
     ],
     "breakpoints": [
       { "name": "mobile", "value": "620px" }
@@ -86,7 +86,7 @@
       { "name": "The Dotted-Rule Rule", "body": "Structural rules are 1px dotted at Ink/16%, never solid. The dotted texture is the printout signature.", "section": "elevation" },
       { "name": "The Paper-Wash Rule", "body": "Conceal the field with a soft white wash wherever sustained reading sits, never a hard-edged panel. The wash feathers into the field at its margins (a horizontal white-to-transparent gradient, the veil rotated); on an article reading view the field stops animating. A gradient that reveals the background is atmosphere, not elevation.", "section": "elevation" },
       { "name": "The Quiet-and-Hand-Built Rule", "body": "Chrome should feel quiet and hand-built. If a piece draws attention to itself, it is wrong; the writing and the field are the subjects.", "section": "components" },
-      { "name": "The Generated-Provenance Rule", "body": "Provenance and build stamps print the field's real parameters injected at build time, never hardcoded or invented.", "section": "components" },
+      { "name": "The Generated-Provenance Rule", "body": "Provenance and build stamps print the shared field payload's real parameters (source name, grid size, color count, generated date), never hardcoded or invented.", "section": "components" },
       { "name": "The Manifest-Index Rule", "body": "Post lists render as aligned generated indices keyed on the ISO date column. Never reintroduce 01 / 02 / 03 numbered section markers.", "section": "components" }
     ],
     "dos": [
@@ -98,7 +98,7 @@
       "Do keep decorative glyphs (meter, cursor, stamps) aria-hidden, and give interactive rows a visible :focus-visible state matching hover.",
       "Do print real generator values in the provenance and build stamps.",
       "Do honor prefers-reduced-motion with the static field frame.",
-      "Do edit tools/page_template.html and rebuild; never hand-edit the generated index.html.",
+      "Do edit tools/page_template.html, tools/post_template.html, or field-renderer.js, then rebuild; never hand-edit generated index.html, post.html, or field-data.js.",
       "Do set long-form article body copy in the reading serif, and freeze the field on an article reading view so nothing moves while reading."
     ],
     "donts": [

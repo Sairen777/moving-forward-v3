@@ -1,0 +1,21 @@
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--rail);
+  margin: 0 auto;
+  padding: 30px 24px 46px;
+  color: var(--dim);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  border-top: 1px dotted var(--hair);
+}
+
+@media (max-width: 620px) {
+  .foot {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}

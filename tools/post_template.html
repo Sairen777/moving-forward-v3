@@ -28,13 +28,9 @@
        -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   a{color:inherit}
 
-  /* ---- animated wheat backdrop (fixed, generated) -------------------- */
+  /* ---- generated wheat backdrop (fixed, static on article) ------------ */
   #bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--paper)}
-  #art{position:absolute;left:0;bottom:0;
-       margin:0;white-space:pre;font-family:var(--mono);line-height:1;letter-spacing:0;
-       font-size:calc(100vh / __DH__);
-       color:#7a8a86;user-select:none}
-__ARTCSS__
+  #art{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none}
   #veil{position:fixed;inset:0;z-index:1;pointer-events:none;
     background:linear-gradient(180deg, var(--paper) 0%, rgba(255,255,255,.8) 28%,
       rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%)}
@@ -120,7 +116,7 @@ __ARTCSS__
 </style>
 </head>
 <body>
-  <div id="bg" aria-hidden="true"><pre id="art"></pre></div>
+  <div id="bg" aria-hidden="true"><canvas id="art"></canvas></div>
   <div id="veil" aria-hidden="true"></div>
 
   <header class="top">
@@ -222,45 +218,8 @@ __ARTCSS__
     </article>
   </div>
 
-  <script>
-  (function(){
-    var RAMP=" .,:;~=+*oae%#@";
-    var COLS=__UCOLS__,ROWS=__ROWS__,KCOOL=__KCOOL__,GAINX=1.85,ARC=0.05,P=0.8;
-    var bin=atob("__FIELD__"),F=new Uint8Array(bin.length);
-    for(var i=0;i<bin.length;i++)F[i]=bin.charCodeAt(i);
-    var art=document.getElementById("art");
-    var EN=new Float64Array(COLS),SP1=new Float64Array(COLS),SP2=new Float64Array(COLS),SP3=new Float64Array(COLS),
-        HGT=new Float64Array(ROWS),V=new Float64Array(COLS),F1=2.1,F2=3.7,F3=5.3;
-    for(var x=0;x<COLS;x++){var px=x/(COLS-1);EN[x]=Math.min(1,Math.sin(Math.PI*px)/0.35);SP1[x]=6.283185*F1*px;SP2[x]=6.283185*F2*px;SP3[x]=6.283185*F3*px;}
-    for(var y=0;y<ROWS;y++){HGT[y]=Math.pow((ROWS-1-y)/(ROWS-1),P);}
-    var n=1;
-    function row(y,t){
-      var yn=y/ROWS,x;
-      var p1=-t/5200*6.283185+2.3*yn, p2=-t/3500*6.283185+3.4*yn+1.7, p3=-t/4400*6.283185+1.1*yn+4.0;
-      for(x=0;x<COLS;x++){ V[x]=Math.sin(SP1[x]+p1)+0.6*Math.sin(SP2[x]+p2)+0.4*Math.sin(SP3[x]+p3); }
-      var gx=HGT[y]*GAINX, s="",run="",rc=-1,D,dy,sx,sy,b,ci,cc;
-      for(x=0;x<COLS;x++){
-        D=gx*EN[x]*(V[x]-V[COLS-1-x]);
-        dy=ARC*D*D; if(dy>3)dy=3;
-        sx=Math.round(x-D); if(sx<0)sx=0; else if(sx>=COLS)sx=COLS-1;
-        sy=Math.round(y-dy); if(sy<0)sy=0; else if(sy>=ROWS)sy=ROWS-1;
-        b=F[sy*COLS+sx]; ci=b&15; cc=b>>4;
-        if(ci===0||cc<KCOOL){ b=F[y*COLS+x]; ci=b&15; cc=b>>4; if(cc>=KCOOL)ci=0; }
-        if(ci===0){ if(rc>=0){s+="<span class=c"+rc+">"+run+"</span>";run="";rc=-1;} s+="&#160;"; }
-        else{ if(cc!==rc){ if(rc>=0)s+="<span class=c"+rc+">"+run+"</span>"; run=""; rc=cc; } run+=RAMP[ci]; }
-      }
-      if(rc>=0)s+="<span class=c"+rc+">"+run+"</span>";
-      var o=s; for(var k=1;k<n;k++)o+=s; return o;
-    }
-    function frame(t){
-      var o=new Array(ROWS),y;
-      for(y=0;y<ROWS;y++)o[y]=row(y,t);
-      art.innerHTML=o.join("\n");
-    }
-    function fit(){ n=1; frame(0); var w=art.offsetWidth||1; n=Math.max(1,Math.ceil(window.innerWidth/w)+1); frame(0); }
-    window.addEventListener("resize",fit,{passive:true});
-    fit();
-  })();
-  </script>
+  <script src="field-data.js"></script>
+  <script src="field-renderer.js"></script>
+  <script>MFField.mount(document.getElementById("art"),{animate:false});</script>
 </body>
 </html>

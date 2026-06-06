@@ -1,0 +1,40 @@
+:global(:root) {
+  --paper: #ffffff;
+  --ink: #3a342b;
+  --head: #27221b;
+  --dim: #6b6253;
+  --hair: rgba(42, 34, 22, 0.16);
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, Cambria, "Times New Roman", serif;
+  --rail: 720px;
+  --article: 40rem;
+  --block: 46px;
+  --gap: 16px;
+}
+
+:global(*) {
+  box-sizing: border-box;
+}
+
+:global(html) {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+:global(body) {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:global(a) {
+  color: inherit;
+}

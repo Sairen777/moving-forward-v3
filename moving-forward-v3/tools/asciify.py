@@ -1,29 +1,32 @@
 """Convert the source photo into abstract, glyph-forward colored ASCII art.
 
-Style goal (per reference): heavy negative space on near-black, the subject
-*formed* by clustered light glyphs rather than a dense photo-mosaic. Smooth
-regions (sky) fall away to void; textured / warm regions (wheat) build up into
-characters. Color is reduced to a few sky-teal + wheat-gold tones and lifted so
-glyphs glow on black.
-
-Outputs:
-  python tools/asciify.py preview [cols]   -> tools/preview.html (with swatches)
-  python tools/asciify.py all [cols]       -> index.html, post.html, field-data.js
+The main output for the SolidStart site is ``src/lib/field-data.ts``. The
+preview command is kept for tuning the quantizer, but the generated web pages
+from the old static build are retired.
 """
-import sys, html, base64, os, datetime, json
-from PIL import Image, ImageFilter
-import numpy as np
+import base64
+import datetime
+import html
+import json
+import sys
+from pathlib import Path
 
-SRC = "0x1900-000000-80-0-0.jpg"
-FIELD_DATA = "field-data.js"
+import numpy as np
+from PIL import Image
+
+TOOLS_DIR = Path(__file__).resolve().parent
+ROOT_DIR = TOOLS_DIR.parent
+SRC = TOOLS_DIR / "0x1900-000000-80-0-0.jpg"
+FIELD_DATA = ROOT_DIR / "src" / "lib" / "field-data.ts"
+SOURCE_NAME = "wheat.jpg"
 
 # sparse -> dense. index 0 is a true space (void); higher = heavier glyph.
 RAMP = " .,:;~=+*oae%#@"
 
-# render geometry: monospace cell width/height ratio (measured in-engine).
+# render geometry: monospace cell width/height ratio measured in-engine.
 CHAR_ASPECT = 0.668
 
-# wheat color ramp anchors: deep shadow -> sun-bleached tip (deliberately golden).
+# wheat color ramp anchors: deep shadow -> sun-bleached tip.
 WHEAT = [
     (74, 44, 22), (112, 70, 30), (148, 98, 40), (180, 126, 50),
     (204, 152, 60), (222, 176, 78), (234, 198, 110), (244, 218, 146),
@@ -70,18 +73,16 @@ def build(cols=120, k_cool=4, k_warm=10, void=0.42, void_sky=0.72, gamma=0.85,
     img = Image.open(SRC).convert("RGB")
     W0, H0 = img.size
     if crop_top:
-        img = img.crop((0, int(H0 * crop_top), W0, H0))  # drop the album-title band
+        img = img.crop((0, int(H0 * crop_top), W0, H0))
     W, H = img.size
     rows = max(1, round(cols * (H / W) * CHAR_ASPECT))
 
-    # per-cell average color (for the palette)
     small = img.resize((cols, rows), Image.LANCZOS)
     rgb = np.asarray(small).astype(np.float32)
     flat = rgb.reshape(-1, 3)
     R, G, B = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
     lum = 0.2126 * R + 0.7152 * G + 0.0722 * B
 
-    # detail map: edge energy at 3x supersample, boxed down to the grid
     S = 3
     big = img.resize((cols * S, rows * S), Image.LANCZOS)
     lb = np.asarray(big.convert("L")).astype(np.float32)
@@ -89,16 +90,12 @@ def build(cols=120, k_cool=4, k_warm=10, void=0.42, void_sky=0.72, gamma=0.85,
     gy = np.abs(np.diff(lb, axis=0, prepend=lb[:1, :]))
     detail = (gx + gy).reshape(rows, S, cols, S).mean((1, 3))
 
-    # warmth: red over blue -> the wheat reads as "subject" and fills in
     warmth = np.clip(R - B, 0, None)
-    warm2d = R > B + 6   # wheat (warm) vs sky (cool), per cell
+    warm2d = R > B + 6
 
-    # ink = how much glyph a cell gets. detail builds texture; warmth fills mass.
     ink = w_detail * _norm(detail, 40, 99) + w_warm * _norm(warmth, 60, 99)
     ink = np.clip(ink, 0, 1) ** gamma
 
-    # carve negative space. thin the sky much harder than the wheat so the sky
-    # reads as faint atmosphere, not a field of noise; the wheat keeps its texture.
     thr = np.empty_like(ink)
     thr[warm2d] = np.quantile(ink[warm2d], void) if warm2d.any() else 0.0
     thr[~warm2d] = np.quantile(ink[~warm2d], void_sky) if (~warm2d).any() else 0.0
@@ -109,27 +106,22 @@ def build(cols=120, k_cool=4, k_warm=10, void=0.42, void_sky=0.72, gamma=0.85,
     cidx_char = np.where(keep, 1 + np.round(lvl * (len(RAMP) - 2)).astype(int), 0)
     cidx_char = np.clip(cidx_char, 0, len(RAMP) - 1)
 
-    # ---- color ----------------------------------------------------------
     warm = warm2d.reshape(-1)
-    # sky: a few cool tones lifted toward the paper so it whispers, not shouts.
     cool_raw = _kquant(flat[~warm], k_cool)
     cool_pal = [tuple(round(v + (255 - v) * sky_fade) for v in c) for c in cool_raw]
-    # wheat: a designed golden ramp, deep shadow -> sun-bleached tip, many stops.
     warm_pal = _ramp(WHEAT, k_warm)
     palette = cool_pal + warm_pal
 
     col = np.empty(flat.shape[0], np.int32)
     col[~warm] = _nearest(flat[~warm], cool_raw)
-    # gradient coordinate t in [0,1]: brighter (sunlit) and higher (tips) -> lighter gold.
     yy = (np.arange(flat.shape[0]) // cols).astype(np.float32)
     if warm.any():
-        tb = _norm(lum.reshape(-1)[warm], 5, 95)        # luminance: sunlit -> light
-        th = 1.0 - _norm(yy[warm], 5, 95)               # height: tips -> light
+        tb = _norm(lum.reshape(-1)[warm], 5, 95)
+        th = 1.0 - _norm(yy[warm], 5, 95)
         t = _norm(w_grad * tb + (1 - w_grad) * th, 3, 97)
         col[warm] = k_cool + np.round(t * (k_warm - 1)).astype(int)
     col = col.reshape(rows, cols)
-    # mirror horizontally so the tile wraps seamlessly: the unit is [art | flip(art)],
-    # so every repeat seam is a duplicated column -> right edge meets left edge exactly.
+
     if mirror:
         cidx_char = np.concatenate([cidx_char, cidx_char[:, ::-1]], axis=1)
         col = np.concatenate([col, col[:, ::-1]], axis=1)
@@ -138,8 +130,7 @@ def build(cols=120, k_cool=4, k_warm=10, void=0.42, void_sky=0.72, gamma=0.85,
 
 
 def to_html_fragment(chari, col, palette):
-    """Run-length encode each row. Space cells carry no color and merge freely,
-    which keeps the markup small despite the large void."""
+    """Run-length encode each row for the preview page."""
     rows, cols = chari.shape
     css = "\n".join(
         f"  .c{i}{{color:#{r:02x}{g:02x}{b:02x}}}" for i, (r, g, b) in enumerate(palette)
@@ -183,24 +174,19 @@ def preview(cols=130):
 <div class=sw>{sw}</div>
 <pre>{body}</pre>
 """
-    open("tools/preview.html", "w").write(out)
+    out_path = TOOLS_DIR / "preview.html"
+    out_path.write_text(out, encoding="utf-8")
     print(f"grid {c}x{r}, {len(palette)} colors, {filled}% glyphs, {len(out)} bytes")
+    print(f"wrote {out_path.relative_to(ROOT_DIR)}")
     for i, (R, G, B) in enumerate(palette):
         print(f"  c{i} #{R:02x}{G:02x}{B:02x}")
 
 
 def _pack_field(chari, col):
-    """One byte per cell: low nibble = glyph index, high nibble = color class.
-    Both are <16 (RAMP has 14 glyphs, palette has <=14 colors), so they co-pack."""
+    """One byte per cell: low nibble = glyph index, high nibble = color class."""
     ch = chari.astype(np.uint8) & 0x0f
     cc = (col.astype(np.uint8) & 0x0f) << 4
     return base64.b64encode((ch | cc).tobytes()).decode("ascii")
-
-
-def _read_template(name):
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), name)
-    with open(path, encoding="utf-8") as f:
-        return f.read()
 
 
 def _hex_palette(palette):
@@ -210,72 +196,50 @@ def _hex_palette(palette):
 def _field_payload(cols=120):
     k_cool = 4
     chari, col, palette, c, r = build(cols=cols, k_cool=k_cool)
-    stamp = datetime.date.today().strftime("%Y.%m.%d")
     return {
         "cols": c,
         "rows": r,
-        "colors": _hex_palette(palette),
-        "k_cool": k_cool,
-        "field": _pack_field(chari, col),
-        "stamp": stamp,
-    }
-
-
-def _write_field_data(payload, out_name=FIELD_DATA):
-    data = {
-        "cols": payload["cols"],
-        "rows": payload["rows"],
-        "kCool": payload["k_cool"],
+        "kCool": k_cool,
         "chars": RAMP,
-        "palette": payload["colors"],
-        "data": payload["field"],
-        "generated": payload["stamp"],
-        "source": "wheat.jpg",
-        "sourceFile": SRC,
+        "palette": _hex_palette(palette),
+        "data": _pack_field(chari, col),
+        "generated": datetime.date.today().strftime("%Y.%m.%d"),
+        "source": SOURCE_NAME,
+        "sourceFile": SRC.name,
     }
-    out = "window.MF_FIELD=" + json.dumps(data, separators=(",", ":")) + ";\n"
-    with open(out_name, "w", encoding="utf-8") as f:
-        f.write(out)
+
+
+def _write_field_module(payload, out_path=FIELD_DATA):
+    module = (
+        "export type FieldPayload = {\n"
+        "  readonly cols: number;\n"
+        "  readonly rows: number;\n"
+        "  readonly kCool: number;\n"
+        "  readonly chars: string;\n"
+        "  readonly palette: readonly string[];\n"
+        "  readonly data: string;\n"
+        "  readonly generated: string;\n"
+        "  readonly source: string;\n"
+        "  readonly sourceFile: string;\n"
+        "};\n\n"
+        f"export const field = {json.dumps(payload, separators=(',', ':'))} as const satisfies FieldPayload;\n"
+    )
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(module, encoding="utf-8")
     print(
-        f"wrote {out_name}: {payload['cols']}x{payload['rows']} field, "
-        f"{len(payload['colors'])} colors, {len(out)} bytes"
+        f"wrote {out_path.relative_to(ROOT_DIR)}: {payload['cols']}x{payload['rows']} field, "
+        f"{len(payload['palette'])} colors, {len(module)} bytes"
     )
 
 
-def _inject(template, payload):
-    out = (template.replace("__UCOLS__", str(payload["cols"]))
-              .replace("__ROWS__", str(payload["rows"]))
-              .replace("__KCOOL__", str(payload["k_cool"]))
-              .replace("__DH__", str(payload["rows"]))
-              .replace("__DATE__", payload["stamp"])
-              .replace("__NCOLORS__", str(len(payload["colors"]))))
-    return out, payload["cols"], payload["rows"], len(payload["colors"])
+def build_field(cols=120):
+    _write_field_module(_field_payload(cols))
 
 
-def _build(template_name, out_name, payload):
-    out, c, r, ncol = _inject(_read_template(template_name), payload)
-    with open(out_name, "w", encoding="utf-8") as f:
-        f.write(out)
-    print(f"wrote {out_name}: {c}x{r} field, {ncol} colors, {len(out)} bytes")
-
-
-def build_index(cols=120, payload=None):
-    payload = payload or _field_payload(cols)
-    _write_field_data(payload)
-    _build("page_template.html", "index.html", payload)
-
-
-def build_post(cols=120, payload=None):
-    payload = payload or _field_payload(cols)
-    _write_field_data(payload)
-    _build("post_template.html", "post.html", payload)
-
-
-def build_all(cols=120):
-    payload = _field_payload(cols)
-    _write_field_data(payload)
-    _build("page_template.html", "index.html", payload)
-    _build("post_template.html", "post.html", payload)
+def _usage():
+    print("usage: tools/asciify.py [field|preview] [cols]")
+    print("  field   write src/lib/field-data.ts, default 120 source columns")
+    print("  preview write tools/preview.html for visual tuning")
 
 
 if __name__ == "__main__":
@@ -283,9 +247,8 @@ if __name__ == "__main__":
     n = int(sys.argv[2]) if len(sys.argv) > 2 else 120
     if cmd == "preview":
         preview(n)
-    elif cmd == "index":
-        build_index(n)
-    elif cmd == "post":
-        build_post(n)
-    elif cmd == "all":
-        build_all(n)
+    elif cmd == "field":
+        build_field(n)
+    else:
+        _usage()
+        raise SystemExit(2)
