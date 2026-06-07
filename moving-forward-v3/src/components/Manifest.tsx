@@ -1,5 +1,5 @@
 import { For } from "solid-js";
-import { field } from "../lib/field-data";
+import { fieldMeta } from "../lib/field-meta";
 import styles from "./Manifest.module.css";
 
 export type ManifestPost = {
@@ -15,7 +15,7 @@ function readMeter(readTime: string) {
   const minutes = Number.parseInt(readTime, 10);
   const meterLength = Number.isFinite(minutes) ? Math.max(3, Math.min(8, minutes + 1)) : 5;
 
-  return field.chars.slice(1, 1 + meterLength);
+  return fieldMeta.chars.slice(1, 1 + meterLength);
 }
 
 export function Manifest(props: { posts: readonly ManifestPost[] }) {

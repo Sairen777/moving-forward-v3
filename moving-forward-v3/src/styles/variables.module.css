@@ -38,3 +38,7 @@
 :global(a) {
   color: inherit;
 }
+
+.globals {
+  display: contents;
+}

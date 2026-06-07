@@ -16,12 +16,10 @@
   margin-top: 1.5em;
 }
 
-.paragraph,
 .prose :global(p) {
   text-wrap: pretty;
 }
 
-.heading,
 .prose :global(h2) {
   margin-top: 2.6em;
   color: var(--head);
@@ -33,7 +31,6 @@
   text-wrap: balance;
 }
 
-.heading::before,
 .prose :global(h2)::before {
   color: var(--dim);
   font-weight: 400;
@@ -45,7 +42,6 @@
   font-weight: 600;
 }
 
-.link,
 .prose :global(a) {
   color: var(--head);
   text-decoration: underline;
@@ -55,14 +51,11 @@
   transition: text-decoration-color 0.2s;
 }
 
-.link:hover,
-.link:focus-visible,
 .prose :global(a:hover),
 .prose :global(a:focus-visible) {
   text-decoration-color: var(--head);
 }
 
-.inlineCode,
 .prose :global(:not(pre) > code) {
   padding: 0.08em 0.36em;
   background: rgba(42, 34, 22, 0.05);
@@ -70,7 +63,6 @@
   font-size: 0.86em;
 }
 
-.codeBlock,
 .prose :global(pre) {
   overflow-x: auto;
   padding: 16px 18px;
@@ -84,14 +76,12 @@
   white-space: pre;
 }
 
-.codeBlock code,
 .prose :global(pre code) {
   padding: 0;
   background: none;
   font-size: inherit;
 }
 
-.blockquote,
 .prose :global(blockquote) {
   position: relative;
   padding: 2px 0 2px 26px;
@@ -99,7 +89,6 @@
   font-style: italic;
 }
 
-.blockquote::before,
 .prose :global(blockquote)::before {
   position: absolute;
   top: 4px;
@@ -110,31 +99,26 @@
   content: ">";
 }
 
-.blockquote p,
 .prose :global(blockquote p) {
   margin: 0;
   text-wrap: pretty;
 }
 
-.list,
 .prose :global(ul) {
   padding: 0;
   list-style: none;
 }
 
-.listItem,
 .prose :global(li) {
   position: relative;
   padding-left: 24px;
   text-wrap: pretty;
 }
 
-.listItem + .listItem,
 .prose :global(li + li) {
   margin-top: 0.6em;
 }
 
-.listItem::before,
 .prose :global(li)::before {
   position: absolute;
   left: 5px;

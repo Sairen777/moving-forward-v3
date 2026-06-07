@@ -1,4 +1,4 @@
-import { field } from "../lib/field-data";
+import { fieldMeta } from "../lib/field-meta";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -6,7 +6,7 @@ export function Footer() {
     <footer class={styles.foot}>
       <span>moving forward</span>
       <span aria-hidden="true">
-        regenerated {field.generated} · {field.cols}x{field.rows} · {field.palette.length} colors
+        regenerated {fieldMeta.generated} · {fieldMeta.cols}x{fieldMeta.rows} · {fieldMeta.palette.length} colors
       </span>
     </footer>
   );

@@ -3,10 +3,15 @@ import { Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
 import { createMemo, type ParentProps } from "solid-js";
 import { ArticleShell } from "../components/ArticleShell";
-import { FieldCanvas } from "../components/FieldCanvas";
+import { clientOnly } from "@solidjs/start";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import styles from "./RootLayout.module.css";
+
+const FieldCanvas = clientOnly(
+  () => import("../components/FieldCanvas").then((m) => ({ default: m.FieldCanvas })),
+  { lazy: true },
+);
 
 type PostFrontmatter = {
   layout?: string;
@@ -27,7 +32,7 @@ export function RootLayout(props: ParentProps) {
     return {
       animateField: pathname === "/",
       frontmatter,
-      isArticle: pathname.startsWith("/writing/") || frontmatter?.layout === "post",
+      isArticle: frontmatter?.layout === "post",
       isHome: pathname === "/",
       isNotFound: pathname !== "/" && !pathname.startsWith("/writing/"),
     };

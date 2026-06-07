@@ -1,6 +1,6 @@
 import { Manifest, type ManifestPost } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
-import { field } from "../lib/field-data";
+import { fieldMeta } from "../lib/field-meta";
 import styles from "./index.module.css";
 import { frontmatter as cleanCutover } from "./writing/the-clean-cutover.mdx";
 
@@ -37,7 +37,7 @@ export default function Home() {
     <>
       <section class={styles.hero}>
         <p class={styles.stamp} aria-hidden="true">
-          # {field.source} -&gt; {field.cols}x{field.rows} ascii · the quiet field
+          # {fieldMeta.source} -&gt; {fieldMeta.cols}x{fieldMeta.rows} ascii · the quiet field
         </p>
         <h1>The slow work of getting better.</h1>
         <p class={styles.lede}>

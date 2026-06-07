@@ -17,6 +17,7 @@ from PIL import Image
 TOOLS_DIR = Path(__file__).resolve().parent
 ROOT_DIR = TOOLS_DIR.parent
 SRC = TOOLS_DIR / "0x1900-000000-80-0-0.jpg"
+FIELD_META = ROOT_DIR / "src" / "lib" / "field-meta.ts"
 FIELD_DATA = ROOT_DIR / "src" / "lib" / "field-data.ts"
 SOURCE_NAME = "wheat.jpg"
 
@@ -209,26 +210,45 @@ def _field_payload(cols=120):
     }
 
 
-def _write_field_module(payload, out_path=FIELD_DATA):
-    module = (
-        "export type FieldPayload = {\n"
+def _write_field_module(payload):
+    meta = {
+        "cols": payload["cols"],
+        "rows": payload["rows"],
+        "kCool": payload["kCool"],
+        "chars": payload["chars"],
+        "palette": payload["palette"],
+        "generated": payload["generated"],
+        "source": payload["source"],
+        "sourceFile": payload["sourceFile"],
+    }
+    meta_module = (
+        "export type FieldMeta = {\n"
         "  readonly cols: number;\n"
         "  readonly rows: number;\n"
         "  readonly kCool: number;\n"
         "  readonly chars: string;\n"
         "  readonly palette: readonly string[];\n"
-        "  readonly data: string;\n"
         "  readonly generated: string;\n"
         "  readonly source: string;\n"
         "  readonly sourceFile: string;\n"
         "};\n\n"
-        f"export const field = {json.dumps(payload, separators=(',', ':'))} as const satisfies FieldPayload;\n"
+        f"export const fieldMeta = {json.dumps(meta, separators=(',', ':'))} as const satisfies FieldMeta;\n"
     )
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(module, encoding="utf-8")
+    data = payload["data"]
+    data_module = (
+        'import { fieldMeta, type FieldMeta } from "./field-meta";\n\n'
+        "export type FieldPayload = FieldMeta & {\n"
+        "  readonly data: string;\n"
+        "};\n\n"
+        f'export const field = {{ ...fieldMeta, data: "{data}" }} as const satisfies FieldPayload;\n'
+    )
+    FIELD_META.parent.mkdir(parents=True, exist_ok=True)
+    FIELD_META.write_text(meta_module, encoding="utf-8")
+    FIELD_DATA.write_text(data_module, encoding="utf-8")
     print(
-        f"wrote {out_path.relative_to(ROOT_DIR)}: {payload['cols']}x{payload['rows']} field, "
-        f"{len(payload['palette'])} colors, {len(module)} bytes"
+        f"wrote {FIELD_META.relative_to(ROOT_DIR)} ({len(meta_module)} bytes) + "
+        f"{FIELD_DATA.relative_to(ROOT_DIR)} ({len(data_module)} bytes): "
+        f"{payload['cols']}x{payload['rows']} field, {len(payload['palette'])} colors"
     )
 
 
@@ -238,7 +258,7 @@ def build_field(cols=120):
 
 def _usage():
     print("usage: tools/asciify.py [field|preview] [cols]")
-    print("  field   write src/lib/field-data.ts, default 120 source columns")
+    print("  field   write src/lib/field-meta.ts + src/lib/field-data.ts, default 120 source columns")
     print("  preview write tools/preview.html for visual tuning")
 
 
