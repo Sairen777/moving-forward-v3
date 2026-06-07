@@ -12,6 +12,9 @@ const solidBase = createSolidBase(theme);
 const manualStaticBuild = process.env.MF_MANUAL_SSG === "1";
 
 export default defineConfig({
+  build: {
+    cssCodeSplit: false,
+  },
   plugins: [
     solidBase.plugin({
       title: "moving forward",
