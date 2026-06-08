@@ -35,7 +35,9 @@ export function Manifest(props: { posts: readonly ManifestPost[] }) {
                 <span class={styles.date}>{post.date}</span>
                 <span class={styles.title}>{post.title}</span>
                 <span class={styles.tag}>{post.tag}</span>
-                <span class={styles.meter} aria-hidden="true">{readMeter(post.readTime)}</span>
+                <span class={styles.meter} aria-hidden="true">
+                  {readMeter(post.readTime)}
+                </span>
               </a>
             </li>
           )}

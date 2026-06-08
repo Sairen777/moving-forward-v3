@@ -8,10 +8,9 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import styles from "./RootLayout.module.css";
 
-const FieldCanvas = clientOnly(
-  () => import("../components/FieldCanvas").then((m) => ({ default: m.FieldCanvas })),
-  { lazy: true },
-);
+const FieldCanvas = clientOnly(() => import("../components/FieldCanvas").then((m) => ({ default: m.FieldCanvas })), {
+  lazy: true,
+});
 
 type PostFrontmatter = {
   layout?: string;

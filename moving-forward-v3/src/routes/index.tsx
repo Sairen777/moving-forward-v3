@@ -41,7 +41,8 @@ export default function Home() {
         </p>
         <h1>The slow work of getting better.</h1>
         <p class={styles.lede}>
-          A field journal on building software, reading code I didn't write, and the quiet discipline of finishing what I start.
+          A field journal on building software, reading code I didn't write, and the quiet discipline of finishing what
+          I start.
         </p>
       </section>
 
@@ -66,7 +67,9 @@ export default function Home() {
         <section id="about" class={styles.block}>
           <SectionHeader title="about" meta="who & why" />
           <p class={styles.about}>
-            I build software and write about the parts that are hard to get right: finishing what I start, reading code I didn't write, and the slow compounding of small, careful decisions. This is where I keep the notes. No schedule, no funnel, just a field I tend when there's something worth saying.
+            I build software and write about the parts that are hard to get right: finishing what I start, reading code
+            I didn't write, and the slow compounding of small, careful decisions. This is where I keep the notes. No
+            schedule, no funnel, just a field I tend when there's something worth saying.
           </p>
         </section>
       </div>

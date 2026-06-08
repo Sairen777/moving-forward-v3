@@ -5,7 +5,11 @@
     "dev": "vite dev",
     "build": "node scripts/build-static.mjs",
     "start": "node scripts/preview-static.mjs",
-    "preview": "node scripts/preview-static.mjs"
+    "preview": "node scripts/preview-static.mjs",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "check": "biome check .",
+    "check:fix": "biome check --write ."
   },
   "dependencies": {
     "@kobalte/solidbase": "0.6.3",
@@ -20,5 +24,7 @@
   "engines": {
     "node": ">=22.12"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@biomejs/biome": "2.4.16"
+  }
 }

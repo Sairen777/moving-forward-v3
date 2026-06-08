@@ -57,7 +57,11 @@ for (const route of routes) {
     await writeFile(file, html, "utf8");
   }
 
-  console.log(`prerendered ${route} -> ${outputFiles(route).map((file) => file.replace(`${outputDir}/`, "")).join(", ")}`);
+  console.log(
+    `prerendered ${route} -> ${outputFiles(route)
+      .map((file) => file.replace(`${outputDir}/`, ""))
+      .join(", ")}`,
+  );
 }
 
 await writeFile(

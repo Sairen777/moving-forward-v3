@@ -60,7 +60,9 @@ export function ArticleShell(props: ArticleShellProps) {
       <div class={styles.reading}>
         <div class={prose.prose}>{props.children}</div>
         <footer class={styles.postFoot}>
-          <a class={styles.back} href="/#writing">← all writing</a>
+          <a class={styles.back} href="/#writing">
+            ← all writing
+          </a>
           <span aria-hidden="true">moving forward</span>
         </footer>
       </div>

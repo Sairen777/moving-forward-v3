@@ -50,7 +50,6 @@ class FieldRenderer implements FieldRendererHandle {
   private readonly syncMotion: () => void;
   private width = 1;
   private height = 1;
-  private dpr = 1;
   private cellW = 1;
   private cellH = 1;
   private tileW = 1;
@@ -94,7 +93,7 @@ class FieldRenderer implements FieldRendererHandle {
     }
 
     for (let y = 0; y < this.rows; y += 1) {
-      this.heightCurve[y] = Math.pow((this.rows - 1 - y) / (this.rows - 1), POWER);
+      this.heightCurve[y] = ((this.rows - 1 - y) / (this.rows - 1)) ** POWER;
     }
 
     this.resizeSoon = () => {
@@ -154,7 +153,6 @@ class FieldRenderer implements FieldRendererHandle {
 
     this.width = w;
     this.height = h;
-    this.dpr = dpr;
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.cellH = h / this.rows;
     this.font = `${this.cellH}px ${FONT}`;

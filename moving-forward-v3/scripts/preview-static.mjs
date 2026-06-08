@@ -96,7 +96,13 @@ function listen(port) {
   const server = createServer(handleRequest);
 
   server.once("error", (error) => {
-    if (error && typeof error === "object" && "code" in error && error.code === "EADDRINUSE" && port < requestedPort + 20) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "EADDRINUSE" &&
+      port < requestedPort + 20
+    ) {
       console.warn(`Port ${port} is busy, trying ${port + 1}.`);
       listen(port + 1);
       return;
