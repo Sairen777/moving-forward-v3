@@ -18,6 +18,9 @@ app.config.timestamp_*.js
 __pycache__/
 *.pyc
 
+# Generated design artifacts (regenerable from PRODUCT.md)
+.impeccable/
+
 # IDEs and editors
 /.idea
 .project
