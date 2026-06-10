@@ -3,9 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "node scripts/build-static.mjs",
-    "start": "node scripts/preview-static.mjs",
-    "preview": "node scripts/preview-static.mjs",
+    "build": "vite build",
     "format": "biome format --write .",
     "lint": "biome lint .",
     "check": "biome check .",
@@ -16,7 +14,6 @@
     "@solidjs/meta": "0.29.4",
     "@solidjs/router": "0.15.4",
     "@solidjs/start": "https://pkg.pr.new/solidjs/solid-start/@solidjs/start@2080",
-    "nitro": "3.0.260311-beta",
     "resolve": "1.22.12",
     "solid-js": "1.9.11",
     "vite": "8.0.16"
@@ -25,6 +22,7 @@
     "node": ">=22.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16"
+    "@biomejs/biome": "2.4.16",
+    "@solidjs/vite-plugin-nitro-2": "0.1.0"
   }
 }

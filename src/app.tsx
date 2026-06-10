@@ -20,9 +20,7 @@ export default function App() {
       <Router
         root={(props) => (
           <MetaProvider>
-            <SolidBaseRoot meta={{ provider: false }}>
-              {props.children}
-            </SolidBaseRoot>
+            <SolidBaseRoot meta={{ provider: false }}>{props.children}</SolidBaseRoot>
           </MetaProvider>
         )}
       >

@@ -1,6 +1,6 @@
 import { createSolidBase, defineTheme } from "@kobalte/solidbase/config";
 import { solidStart } from "@solidjs/start/config";
-import { nitro } from "nitro/vite";
+import { nitroV2Plugin } from "@solidjs/vite-plugin-nitro-2";
 import { defineConfig } from "vite";
 
 const theme = defineTheme({
@@ -8,8 +8,6 @@ const theme = defineTheme({
 });
 
 const solidBase = createSolidBase(theme);
-
-const manualStaticBuild = process.env.MF_MANUAL_SSG === "1";
 
 export default defineConfig({
   build: {
@@ -26,16 +24,12 @@ export default defineConfig({
       },
     }),
     solidStart(solidBase.startConfig({ ssr: true })),
-    ...(manualStaticBuild
-      ? []
-      : [
-          nitro({
-            static: true,
-            prerender: {
-              crawlLinks: true,
-              routes: ["/", "/writing/the-clean-cutover", "/404"],
-            },
-          }),
-        ]),
+    nitroV2Plugin({
+      preset: "static",
+      prerender: {
+        crawlLinks: true,
+        routes: ["/", "/writing/the-clean-cutover", "/404"],
+      },
+    }),
   ],
 });
