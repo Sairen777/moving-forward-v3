@@ -34,3 +34,6 @@ gitignore
 # System Files
 .DS_Store
 Thumbs.db
+
+# Build verification screenshots
+artifacts/
