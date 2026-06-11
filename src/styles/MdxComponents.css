@@ -1,0 +1,134 @@
+/*
+  Article typography for MDX content.
+
+  Markdown is rendered through SolidBase's MDX provider as native HTML elements
+  and wrapped by ArticleShell in a `.MdxComponents` container. These descendant
+  selectors style the native tags directly, scoped to that container, so no
+  per-element class wrappers are needed.
+*/
+
+.MdxComponents {
+  max-width: var(--article);
+  margin-inline: auto;
+  padding: 42px 24px 9vh;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.MdxComponents > :not(:first-child) {
+  margin-top: 1.5em;
+}
+
+.MdxComponents p {
+  text-wrap: pretty;
+}
+
+.MdxComponents h2 {
+  margin-top: 2.6em;
+  color: var(--head);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+.MdxComponents h2::before {
+  color: var(--dim);
+  font-weight: 400;
+  content: "## ";
+}
+
+.MdxComponents strong {
+  color: var(--head);
+  font-weight: 600;
+}
+
+.MdxComponents a {
+  color: var(--head);
+  text-decoration: underline;
+  text-decoration-color: var(--hair);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+
+.MdxComponents a:hover,
+.MdxComponents a:focus-visible {
+  text-decoration-color: var(--head);
+}
+
+.MdxComponents :not(pre) > code {
+  padding: 0.08em 0.36em;
+  background: rgba(42, 34, 22, 0.05);
+  font-family: var(--mono);
+  font-size: 0.86em;
+}
+
+.MdxComponents pre {
+  overflow-x: auto;
+  padding: 16px 18px;
+  color: var(--ink);
+  background: rgba(42, 34, 22, 0.045);
+  border-top: 1px dotted var(--hair);
+  border-bottom: 1px dotted var(--hair);
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.62;
+  white-space: pre;
+}
+
+.MdxComponents pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.MdxComponents blockquote {
+  position: relative;
+  padding: 2px 0 2px 26px;
+  color: var(--dim);
+  font-style: italic;
+}
+
+.MdxComponents blockquote::before {
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-style: normal;
+  content: ">";
+}
+
+.MdxComponents ul {
+  padding: 0;
+  list-style: none;
+}
+
+.MdxComponents li {
+  position: relative;
+  padding-left: 24px;
+  text-wrap: pretty;
+}
+
+.MdxComponents li + li {
+  margin-top: 0.6em;
+}
+
+.MdxComponents li::before {
+  position: absolute;
+  left: 5px;
+  color: var(--dim);
+  font-family: var(--mono);
+  content: "-";
+}
+
+@media (max-width: 620px) {
+  .MdxComponents {
+    padding: 34px 18px 9vh;
+  }
+}
