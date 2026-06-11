@@ -10,9 +10,6 @@ const theme = defineTheme({
 const solidBase = createSolidBase(theme);
 
 export default defineConfig({
-  build: {
-    cssCodeSplit: false,
-  },
   plugins: [
     solidBase.plugin({
       title: "moving forward",

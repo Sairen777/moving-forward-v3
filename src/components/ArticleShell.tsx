@@ -1,8 +1,8 @@
 import { Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
 import { createMemo, type ParentProps } from "solid-js";
-import prose from "../styles/prose.module.css";
 import styles from "./ArticleShell.module.css";
+import "../styles/MdxComponents.css";
 
 type ArticleFrontmatter = {
   layout?: string;
@@ -58,7 +58,7 @@ export function ArticleShell(props: ArticleShellProps) {
       </header>
 
       <div class={styles.reading}>
-        <div class={prose.prose}>{props.children}</div>
+        <div class="MdxComponents">{props.children}</div>
         <footer class={styles.postFoot}>
           <a class={styles.back} href="/#writing">
             ← all writing
