@@ -22,6 +22,10 @@ __pycache__/
 # Generated design artifacts (regenerable from PRODUCT.md)
 .impeccable/
 
+# Author working docs (kept local; not published to the repo)
+/PRODUCT.md
+/DESIGN.md
+
 # IDEs and editors
 /.idea
 .project
