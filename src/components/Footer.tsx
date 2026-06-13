@@ -1,5 +1,6 @@
-import { social } from "../lib/routes";
 import { fieldMeta } from "../lib/field-meta";
+import { social } from "../lib/routes";
+
 import styles from "./Footer.module.css";
 
 export function Footer() {

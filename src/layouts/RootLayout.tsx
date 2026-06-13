@@ -1,9 +1,9 @@
-import { createMemo, type ParentProps } from "solid-js";
 import { useCurrentPageData } from "@kobalte/solidbase/client";
 import { Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
-import { ArticleShell } from "../components/ArticleShell";
 import { clientOnly } from "@solidjs/start";
+import { createMemo, type ParentProps } from "solid-js";
+import { ArticleShell } from "../components/ArticleShell";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { isArticlePath, routes, social } from "../lib/routes";

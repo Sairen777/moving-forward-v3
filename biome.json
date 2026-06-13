@@ -16,7 +16,32 @@
     "lineWidth": 120
   },
   "assist": {
-    "enabled": false
+    "enabled": true,
+    "actions": {
+      "recommended": false,
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [
+                ":PACKAGE:",
+                ":PACKAGE_WITH_PROTOCOL:",
+                ":NODE:",
+                ":BUN:",
+                ":URL:",
+                ":ALIAS:",
+                ":PATH:",
+                "!**/*.css",
+                "!**/*.css\\?*"
+              ],
+              ":BLANK_LINE:",
+              ["**/*.css", "**/*.css\\?*"]
+            ]
+          }
+        }
+      }
+    }
   },
   "linter": {
     "enabled": true,

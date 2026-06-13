@@ -2,8 +2,9 @@ import { Manifest, type ManifestPost } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
 import { fieldMeta } from "../lib/field-meta";
 import { articlePath, social } from "../lib/routes";
-import styles from "./index.module.css";
 import { frontmatter as visualizingLife } from "./writing/visualizing-life.mdx";
+
+import styles from "./index.module.css";
 
 const POSTS: readonly ManifestPost[] = [
   {

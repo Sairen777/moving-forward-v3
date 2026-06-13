@@ -1,6 +1,7 @@
-import { createEffect, onCleanup, onMount, type Accessor } from "solid-js";
+import { type Accessor, createEffect, onCleanup, onMount } from "solid-js";
 import { field } from "../lib/field-data";
-import { mount, type FieldRendererHandle } from "../lib/field-renderer";
+import { type FieldRendererHandle, mount } from "../lib/field-renderer";
+
 import styles from "./FieldCanvas.module.css";
 
 type FieldCanvasProps = {

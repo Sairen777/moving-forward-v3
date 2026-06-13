@@ -1,5 +1,6 @@
 import { For } from "solid-js";
 import { fieldMeta } from "../lib/field-meta";
+
 import styles from "./Manifest.module.css";
 
 export type ManifestPost = {
