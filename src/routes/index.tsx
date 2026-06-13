@@ -1,34 +1,20 @@
 import { Manifest, type ManifestPost } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
 import { fieldMeta } from "../lib/field-meta";
+import { articlePath, social } from "../lib/routes";
 import styles from "./index.module.css";
-import { frontmatter as cleanCutover } from "./writing/the-clean-cutover.mdx";
+import { frontmatter as visualizingLife } from "./writing/visualizing-life.mdx";
 
 const POSTS: readonly ManifestPost[] = [
   {
-    slug: "the-clean-cutover",
-    href: "/writing/the-clean-cutover",
-    title: cleanCutover.title!,
-    date: cleanCutover.date!,
-    tag: cleanCutover.tag!,
-    readTime: cleanCutover.readTime!,
+    slug: "visualizing-life",
+    href: articlePath("visualizing-life"),
+    title: visualizingLife.title!,
+    date: visualizingLife.date!,
+    tag: visualizingLife.tag!,
+    readTime: visualizingLife.readTime!,
   },
 ].sort((a, b) => b.date.localeCompare(a.date));
-
-const notes = [
-  {
-    date: "2024.11.25",
-    line: "Deleted code all morning. Net −400 lines, zero behavior change. A good day.",
-  },
-  {
-    date: "2024.11.11",
-    line: "A test you didn't write is a bug you haven't met yet.",
-  },
-  {
-    date: "2024.10.28",
-    line: "Refactor in the language of the domain, not the language of the framework.",
-  },
-] as const;
 
 export default function Home() {
   const entryLabel = POSTS.length === 1 ? "01 entry" : `${POSTS.length.toString().padStart(2, "0")} entries`;
@@ -39,10 +25,9 @@ export default function Home() {
         <p class={styles.stamp} aria-hidden="true">
           # {fieldMeta.source} -&gt; {fieldMeta.cols}x{fieldMeta.rows} ascii · the quiet field
         </p>
-        <h1>The slow work of getting better.</h1>
+        <h1>Let's evolve together.</h1>
         <p class={styles.lede}>
-          A field journal on building software, reading code I didn't write, and the quiet discipline of finishing what
-          I start.
+          Programming, video games, and productivity — my thoughts, opinions, and the projects I'm currently working on.
         </p>
       </section>
 
@@ -52,24 +37,16 @@ export default function Home() {
           <Manifest posts={POSTS} />
         </section>
 
-        <section id="notes" class={styles.block}>
-          <SectionHeader title="field notes" meta="shorter logs" />
-          <ul class={styles.notes}>
-            {notes.map((note) => (
-              <li class={styles.noteRow}>
-                <span class={styles.date}>{note.date}</span>
-                <span class={styles.line}>{note.line}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         <section id="about" class={styles.block}>
           <SectionHeader title="about" meta="who & why" />
           <p class={styles.about}>
-            I build software and write about the parts that are hard to get right: finishing what I start, reading code
-            I didn't write, and the slow compounding of small, careful decisions. This is where I keep the notes. No
-            schedule, no funnel, just a field I tend when there's something worth saying.
+            Hi, I'm Alex. I work as a SWE at a big fintech, travel, play video games, and love all things productivity —
+            without being zealous about it. Here I share my thoughts, opinions, and the projects I'm currently working
+            on. Reach out on{" "}
+            <a href={social.xUrl} target="_blank" rel="noreferrer">
+              X ({social.xHandle})
+            </a>{" "}
+            if you want to talk.
           </p>
         </section>
       </div>

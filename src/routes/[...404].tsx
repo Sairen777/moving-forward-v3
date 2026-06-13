@@ -1,3 +1,4 @@
+import { routes } from "../lib/routes";
 import { HttpStatusCode } from "@solidjs/start";
 import styles from "./not-found.module.css";
 
@@ -8,7 +9,7 @@ export default function NotFound() {
       <p class={styles.kicker}>404</p>
       <h1>Nothing grows here yet.</h1>
       <p class={styles.copy}>The field continues, but this route does not.</p>
-      <a class={styles.back} href="/">
+      <a class={styles.back} href={routes.home}>
         ← return to the manifest
       </a>
     </section>

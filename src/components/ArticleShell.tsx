@@ -1,6 +1,7 @@
 import { Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
 import { createMemo, type ParentProps } from "solid-js";
+import { routes, social } from "../lib/routes";
 import styles from "./ArticleShell.module.css";
 import "../styles/MdxComponents.css";
 
@@ -43,6 +44,7 @@ export function ArticleShell(props: ArticleShellProps) {
           <Meta property="og:description" content={metadata().description} />
           <Meta property="og:type" content="article" />
           <Meta name="twitter:card" content="summary" />
+          <Meta name="twitter:site" content={social.xHandle} />
           <Meta name="twitter:title" content={metadata().title} />
           <Meta name="twitter:description" content={metadata().description} />
         </>
@@ -50,7 +52,7 @@ export function ArticleShell(props: ArticleShellProps) {
 
       <header class={styles.head}>
         <p class={styles.crumb}>
-          <a href="/#writing">/writing</a> / {metadata().slug}
+          <a href={routes.writing}>/writing</a> / {metadata().slug}
         </p>
         <p class={styles.meta}>{metadata().metaLine}</p>
         <h1>{metadata().title}</h1>
@@ -60,7 +62,7 @@ export function ArticleShell(props: ArticleShellProps) {
       <div class={styles.reading}>
         <div class="MdxComponents">{props.children}</div>
         <footer class={styles.postFoot}>
-          <a class={styles.back} href="/#writing">
+          <a class={styles.back} href={routes.writing}>
             ← all writing
           </a>
           <span aria-hidden="true">moving forward</span>

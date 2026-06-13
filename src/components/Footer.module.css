@@ -13,6 +13,19 @@
   border-top: 1px dotted var(--hair);
 }
 
+.foot a {
+  color: var(--dim);
+  text-decoration: underline;
+  text-decoration-color: var(--hair);
+  text-underline-offset: 2px;
+}
+
+.foot a:hover,
+.foot a:focus-visible {
+  color: var(--head);
+  text-decoration-color: var(--head);
+}
+
 @media (max-width: 620px) {
   .foot {
     padding-right: 18px;

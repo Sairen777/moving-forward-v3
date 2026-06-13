@@ -13,7 +13,7 @@ export default defineConfig({
   plugins: [
     solidBase.plugin({
       title: "moving forward",
-      description: "A field journal on building, learning, and moving forward.",
+      description: "A field journal about past, present, and moving forward.",
       lang: "en",
       lastUpdated: false,
       markdown: {
@@ -25,7 +25,7 @@ export default defineConfig({
       preset: "static",
       prerender: {
         crawlLinks: true,
-        routes: ["/", "/writing/the-clean-cutover", "/404"],
+        routes: ["/", "/writing/visualizing-life", "/404"],
       },
     }),
   ],

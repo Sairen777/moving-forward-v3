@@ -58,32 +58,6 @@
   padding-top: 24px;
 }
 
-.notes {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.noteRow {
-  display: grid;
-  grid-template-columns: 11ch 1fr;
-  gap: 16px;
-  align-items: baseline;
-  padding: 13px 2px;
-  border-bottom: 1px dotted var(--hair);
-}
-
-.date {
-  color: var(--dim);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.line {
-  color: var(--ink);
-  font-size: 14px;
-}
-
 .about {
   max-width: 60ch;
   margin: 0;
@@ -91,6 +65,18 @@
   font-size: 15px;
   line-height: 1.7;
   text-wrap: pretty;
+}
+
+.about a {
+  color: var(--head);
+  text-decoration: underline;
+  text-decoration-color: var(--hair);
+  text-underline-offset: 3px;
+}
+
+.about a:hover,
+.about a:focus-visible {
+  text-decoration-color: var(--head);
 }
 
 @media (max-width: 1000px) {
@@ -111,11 +97,5 @@
   .block {
     padding-right: 18px;
     padding-left: 18px;
-  }
-
-  .noteRow {
-    grid-template-columns: 1fr;
-    gap: 3px;
-    padding: 14px 2px;
   }
 }

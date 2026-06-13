@@ -19,10 +19,8 @@ app.config.timestamp_*.js
 __pycache__/
 *.pyc
 
-# Generated design artifacts (regenerable from PRODUCT.md)
+# Generated design artifacts
 .impeccable/
-
-# Author working docs (kept local; not published to the repo)
 /PRODUCT.md
 /DESIGN.md
 
@@ -32,9 +30,7 @@ __pycache__/
 .classpath
 *.launch
 .settings/
-
-# Temp
-gitignore
+.zed
 
 # System Files
 .DS_Store
