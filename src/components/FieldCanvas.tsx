@@ -14,6 +14,7 @@ export function FieldCanvas(props: FieldCanvasProps) {
 
   onMount(() => {
     renderer = mount(canvas, { field, animate: props.animate() });
+    canvas.parentElement?.setAttribute("data-field-ready", "");
   });
 
   createEffect(() => {
@@ -23,7 +24,10 @@ export function FieldCanvas(props: FieldCanvasProps) {
     else renderer.stop();
   });
 
-  onCleanup(() => renderer?.destroy());
+  onCleanup(() => {
+    canvas.parentElement?.removeAttribute("data-field-ready");
+    renderer?.destroy();
+  });
 
   return (
     <div class={styles.bg} aria-hidden="true">

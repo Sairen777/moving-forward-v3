@@ -21,7 +21,7 @@
 
 .lede {
   max-width: 56ch;
-  margin: 18px 0 0;
+  margin: 24px 0 0;
   color: var(--ink);
   font-size: 15px;
   text-wrap: pretty;
@@ -37,14 +37,14 @@
   bottom: 0;
   left: 50%;
   z-index: -1;
-  width: min(94vw, 1060px);
+  width: min(94vw, 1140px);
   pointer-events: none;
   content: "";
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.9) 150px,
-    rgba(255, 255, 255, 0.9) calc(100% - 150px),
+    rgba(255, 255, 255, 0.92) 175px,
+    rgba(255, 255, 255, 0.92) calc(100% - 175px),
     rgba(255, 255, 255, 0)
   );
   transform: translateX(-50%);
@@ -81,7 +81,7 @@
 
 @media (max-width: 1000px) {
   .reading {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.92);
   }
 
   .reading::before {

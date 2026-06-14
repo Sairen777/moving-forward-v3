@@ -9,11 +9,11 @@ import { FileRoutes } from "@solidjs/start/router";
 // already ship in the always-loaded entry chunk.
 import "./layouts/RootLayout";
 
-import variables from "./styles/variables.module.css";
+import "./App.styles.css";
 
 export default function App() {
   return (
-    <div class={variables.globals}>
+    <div class="app">
       <Router
         root={(props) => (
           <MetaProvider>

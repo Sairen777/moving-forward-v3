@@ -1,4 +1,5 @@
 .foot {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -6,11 +7,32 @@
   justify-content: space-between;
   max-width: var(--rail);
   margin: 0 auto;
-  padding: 30px 24px 46px;
+  padding: 44px 24px 46px;
   color: var(--dim);
-  font-size: 11.5px;
+  font-size: 12.5px;
   letter-spacing: 0.04em;
   border-top: 1px dotted var(--hair);
+}
+
+.foot::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: -1;
+  width: min(94vw, 1140px);
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.94) 175px,
+    rgba(255, 255, 255, 0.94) calc(100% - 175px),
+    rgba(255, 255, 255, 0)
+  );
+  transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 34px, #000 calc(100% - 22px), transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 34px, #000 calc(100% - 22px), transparent);
 }
 
 .foot a {
@@ -24,6 +46,13 @@
 .foot a:focus-visible {
   color: var(--head);
   text-decoration-color: var(--head);
+}
+
+@media (max-width: 1000px) {
+  .foot::before {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.92);
+  }
 }
 
 @media (max-width: 620px) {

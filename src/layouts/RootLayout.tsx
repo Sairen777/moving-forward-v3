@@ -8,6 +8,7 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { isArticlePath, routes, social } from "../lib/routes";
 
+import fieldStyles from "../components/FieldCanvas.module.css";
 import styles from "./RootLayout.module.css";
 
 const FieldCanvas = clientOnly(() => import("../components/FieldCanvas").then((m) => ({ default: m.FieldCanvas })), {
@@ -42,7 +43,7 @@ export function RootLayout(props: ParentProps) {
 
   return (
     <>
-      <FieldCanvas animate={animateField} />
+      <FieldCanvas animate={animateField} fallback={<div class={fieldStyles.bg} aria-hidden="true" />} />
       <div class={styles.veil} aria-hidden="true" />
       <div class={styles.root}>
         {routeState().isHome && (
