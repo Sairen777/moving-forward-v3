@@ -2,6 +2,8 @@ import type { FieldPayload } from "./field-data";
 
 const TWO_PI = 6.283185307179586;
 const FONT = 'ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace';
+// Match the SSR SVG fallback's viewBox so hydration does not resize the field.
+const CELL_ASPECT = 0.601923590766059;
 const MAX_DPR = 2;
 const MAX_BEND = 2.8;
 const ARC_DROP = 0.07;
@@ -213,7 +215,7 @@ class FieldRenderer implements FieldRendererHandle {
     this.font = `${this.cellH}px ${FONT}`;
     this.ctx.font = this.font;
     this.ctx.textBaseline = "top";
-    this.cellW = this.ctx.measureText("M").width || this.cellH * 0.6;
+    this.cellW = this.cellH * CELL_ASPECT;
     this.tileW = this.cols * this.cellW;
     this.tiles = Math.max(1, Math.ceil(w / this.tileW) + 1);
     this.draw(0);
@@ -301,14 +303,19 @@ class FieldRenderer implements FieldRendererHandle {
   private runLoop() {
     if (this.running) return;
     this.running = true;
-    this.last = 0;
+    let origin = 0;
 
     const loop = (t: number) => {
       if (!this.running) return;
       this.raf = requestAnimationFrame(loop);
+      if (origin === 0) {
+        origin = t;
+        this.last = t;
+        return;
+      }
       if (t - this.last < FRAME_MS) return;
       this.last = t;
-      this.draw(t);
+      this.draw(t - origin);
     };
 
     this.raf = requestAnimationFrame(loop);

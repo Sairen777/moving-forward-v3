@@ -8,23 +8,46 @@ type FieldCanvasProps = {
   animate: Accessor<boolean>;
 };
 
+const ANIMATION_DELAY_MS = 2000;
+
 export function FieldCanvas(props: FieldCanvasProps) {
   let canvas!: HTMLCanvasElement;
   let renderer: FieldRendererHandle | undefined;
+  let startDelay: number | undefined;
+
+  const clearStartDelay = () => {
+    if (startDelay === undefined) return;
+    window.clearTimeout(startDelay);
+    startDelay = undefined;
+  };
+
+  const syncAnimation = (shouldAnimate: boolean) => {
+    if (!renderer) return;
+    clearStartDelay();
+    if (!shouldAnimate) {
+      renderer.stop();
+      canvas.parentElement?.removeAttribute("data-field-ready");
+      return;
+    }
+
+    startDelay = window.setTimeout(() => {
+      startDelay = undefined;
+      renderer?.start();
+      canvas.parentElement?.setAttribute("data-field-ready", "");
+    }, ANIMATION_DELAY_MS);
+  };
 
   onMount(() => {
-    renderer = mount(canvas, { field, animate: props.animate() });
-    canvas.parentElement?.setAttribute("data-field-ready", "");
+    renderer = mount(canvas, { field, animate: false });
+    syncAnimation(props.animate());
   });
 
   createEffect(() => {
-    const shouldAnimate = props.animate();
-    if (!renderer) return;
-    if (shouldAnimate) renderer.start();
-    else renderer.stop();
+    syncAnimation(props.animate());
   });
 
   onCleanup(() => {
+    clearStartDelay();
     canvas.parentElement?.removeAttribute("data-field-ready");
     renderer?.destroy();
   });
