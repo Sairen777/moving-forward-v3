@@ -1,19 +1,14 @@
 import { useCurrentPageData } from "@kobalte/solidbase/client";
 import { Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
-import { clientOnly } from "@solidjs/start";
 import { createMemo, type ParentProps } from "solid-js";
 import { ArticleShell } from "../components/ArticleShell";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { SiteBackground } from "../components/SiteBackground";
 import { isArticlePath, routes, social } from "../lib/routes";
 
-import fieldStyles from "../components/FieldCanvas.module.css";
 import styles from "./RootLayout.module.css";
-
-const FieldCanvas = clientOnly(() => import("../components/FieldCanvas").then((m) => ({ default: m.FieldCanvas })), {
-  lazy: true,
-});
 
 type PostFrontmatter = {
   layout?: string;
@@ -43,7 +38,7 @@ export function RootLayout(props: ParentProps) {
 
   return (
     <>
-      <FieldCanvas animate={animateField} fallback={<div class={fieldStyles.bg} aria-hidden="true" />} />
+      <SiteBackground animate={animateField} />
       <div class={styles.veil} aria-hidden="true" />
       <div class={styles.root}>
         {routeState().isHome && (

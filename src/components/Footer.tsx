@@ -1,4 +1,4 @@
-import { fieldMeta } from "../lib/field-meta";
+import { activeBackgroundMeta } from "../backgrounds/current";
 import { social } from "../lib/routes";
 
 import styles from "./Footer.module.css";
@@ -13,7 +13,8 @@ export function Footer() {
         </a>
       </span>
       <span aria-hidden="true">
-        regenerated {fieldMeta.generated} · {fieldMeta.cols}x{fieldMeta.rows} · {fieldMeta.palette.length} colors
+        regenerated {activeBackgroundMeta.generated} · {activeBackgroundMeta.cols}x{activeBackgroundMeta.rows} ·{" "}
+        {activeBackgroundMeta.palette.length} colors
       </span>
     </footer>
   );

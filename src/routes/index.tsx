@@ -1,6 +1,6 @@
+import { activeBackgroundMeta } from "../backgrounds/current";
 import { Manifest, type ManifestPost } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
-import { fieldMeta } from "../lib/field-meta";
 import { articlePath, social } from "../lib/routes";
 import { frontmatter as visualizingLife } from "./writing/visualizing-life.mdx";
 
@@ -24,7 +24,8 @@ export default function Home() {
     <>
       <section class={styles.hero}>
         <p class={styles.stamp} aria-hidden="true">
-          # {fieldMeta.source} -&gt; {fieldMeta.cols}x{fieldMeta.rows} ascii · the quiet field
+          # {activeBackgroundMeta.source} -&gt; {activeBackgroundMeta.cols}x{activeBackgroundMeta.rows} ascii · the
+          quiet field
         </p>
         <h1>Let's evolve together.</h1>
         <p class={styles.lede}>

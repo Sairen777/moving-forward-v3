@@ -1,5 +1,5 @@
 import { For } from "solid-js";
-import { fieldMeta } from "../lib/field-meta";
+import { activeBackgroundMeta } from "../backgrounds/current";
 
 import styles from "./Manifest.module.css";
 
@@ -16,7 +16,7 @@ function readMeter(readTime: string) {
   const minutes = Number.parseInt(readTime, 10);
   const meterLength = Number.isFinite(minutes) ? Math.max(3, Math.min(8, minutes + 1)) : 5;
 
-  return fieldMeta.chars.slice(1, 1 + meterLength);
+  return activeBackgroundMeta.chars.slice(1, 1 + meterLength);
 }
 
 export function Manifest(props: { posts: readonly ManifestPost[] }) {

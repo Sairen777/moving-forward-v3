@@ -7,7 +7,12 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!src/lib/field-data.ts", "!src/lib/field-meta.ts", "!**/.impeccable"]
+    "includes": [
+      "**",
+      "!src/backgrounds/quiet-field/profile.ts",
+      "!src/backgrounds/quiet-field/background.module.css",
+      "!**/.impeccable"
+    ]
   },
   "formatter": {
     "enabled": true,
