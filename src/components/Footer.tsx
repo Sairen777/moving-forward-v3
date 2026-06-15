@@ -12,7 +12,7 @@ export function Footer() {
           {social.xHandle}
         </a>
       </span>
-      <span aria-hidden="true">
+      <span class={styles.stamp} aria-hidden="true">
         regenerated {activeBackgroundMeta.generated} · {activeBackgroundMeta.cols}x{activeBackgroundMeta.rows} ·{" "}
         {activeBackgroundMeta.palette.length} colors
       </span>

@@ -1,4 +1,3 @@
-import { activeBackgroundMeta } from "../backgrounds/current";
 import { Manifest, type ManifestPost } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
 import { articlePath, social } from "../lib/routes";
@@ -12,8 +11,6 @@ const POSTS: readonly ManifestPost[] = [
     href: articlePath("visualizing-life"),
     title: visualizingLife.title!,
     date: visualizingLife.date!,
-    tag: visualizingLife.tag!,
-    readTime: visualizingLife.readTime!,
   },
 ].sort((a, b) => b.date.localeCompare(a.date));
 
@@ -23,10 +20,6 @@ export default function Home() {
   return (
     <>
       <section class={styles.hero}>
-        <p class={styles.stamp} aria-hidden="true">
-          # {activeBackgroundMeta.source} -&gt; {activeBackgroundMeta.cols}x{activeBackgroundMeta.rows} ascii · the
-          quiet field
-        </p>
         <h1>Let's evolve together.</h1>
         <p class={styles.lede}>
           Programming, video games, and productivity — my thoughts, opinions, and the projects I'm currently working on.
