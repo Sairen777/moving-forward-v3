@@ -27,6 +27,8 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
   let motion: MediaQueryList | undefined;
   let motionState: AsciiMotionState | undefined;
   let removeMotionListener: (() => void) | undefined;
+  let elapsedMs = 0;
+  let hasAnimatedFrame = false;
 
   const clearTimer = () => {
     if (timer === undefined) return;
@@ -34,14 +36,21 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
     timer = undefined;
   };
 
-  const holdStill = () => {
+  const stopPlayback = () => {
     animationActive = false;
+    clearTimer();
     if (raf !== undefined) {
       cancelAnimationFrame(raf);
       raf = undefined;
     }
     origin = 0;
     last = 0;
+  };
+
+  const resetToBase = () => {
+    stopPlayback();
+    elapsedMs = 0;
+    hasAnimatedFrame = false;
     if (rowEls.length === activeBackground.meta.rows) {
       for (let y = 0; y < activeBackground.meta.rows; y += 1) {
         rowEls[y].innerHTML = initialRows[y];
@@ -52,6 +61,10 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
     dirtyRows.fill(0);
   };
 
+  const pauseOnCurrentFrame = () => {
+    stopPlayback();
+  };
+
   const runLoop = () => {
     const state = motionState;
     if (raf !== undefined || !state) return;
@@ -59,13 +72,14 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
       if (!animationActive) return;
       raf = requestAnimationFrame(loop);
       if (origin === 0) {
-        origin = t;
+        origin = t - elapsedMs;
         last = t;
         return;
       }
       if (t - last < activeBackground.timing.frameMs) return;
       last = t;
-      writeAsciiFrame(activeBackground, baseCells, previous, next, state, t - origin, dirtyRows);
+      elapsedMs = t - origin;
+      writeAsciiFrame(activeBackground, baseCells, previous, next, state, elapsedMs, dirtyRows);
       for (let y = 0; y < activeBackground.meta.rows; y += 1) {
         if (dirtyRows[y]) {
           rowEls[y].innerHTML = renderAsciiRow(activeBackground, next, y);
@@ -75,17 +89,33 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
       const tmp = previous;
       previous = next;
       next = tmp;
+      hasAnimatedFrame = true;
     };
     raf = requestAnimationFrame(loop);
   };
 
   const syncAnimation = (shouldAnimate: boolean) => {
-    clearTimer();
+    if (!motionState || rowEls.length !== activeBackground.meta.rows) return;
+
     const reducedMotion = motion?.matches ?? false;
-    if (!shouldAnimate || reducedMotion) {
-      holdStill();
+    if (reducedMotion) {
+      resetToBase();
       return;
     }
+
+    if (!shouldAnimate) {
+      pauseOnCurrentFrame();
+      return;
+    }
+
+    if (animationActive || raf !== undefined || timer !== undefined) return;
+
+    if (hasAnimatedFrame || elapsedMs > 0) {
+      animationActive = true;
+      runLoop();
+      return;
+    }
+
     timer = window.setTimeout(() => {
       timer = undefined;
       animationActive = true;
@@ -122,10 +152,8 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
   createEffect(() => {
     syncAnimation(props.animate());
   });
-
   onCleanup(() => {
-    clearTimer();
-    holdStill();
+    stopPlayback();
     removeMotionListener?.();
     removeMotionListener = undefined;
   });

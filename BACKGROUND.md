@@ -30,7 +30,7 @@ tools/
 
 3. **Delay and dirty-row update.** The animation waits `background.timing.startDelayMs` (2000 ms on the home route). After the delay, a `requestAnimationFrame` loop runs every `background.timing.frameMs`. Each accepted frame calls `writeAsciiFrame` to sample wind-displaced glyphs from the immutable base into the `next` buffer, then compares against the `previous` buffer to find dirty rows. Only dirty rows get `innerHTML = renderAsciiRow(...)` — the rest stay untouched.
 
-4. **Static routes and reduced motion.** When `props.animate()` is false or `prefers-reduced-motion: reduce` matches, the timer and RAF are cancelled, and every row resets to the base HTML. This keeps article and 404 routes fully static.
+4. **Static routes and reduced motion.** When the route changes from home to an article, the animation pauses on the current visible frame — DOM rows stay as-is, buffers and elapsed time are preserved. Navigating back home resumes from that held elapsed time without replaying the start delay. Direct article loads show the static SSR base rows. When `prefers-reduced-motion: reduce` matches, every row resets to the base HTML and stays static. No backend, `localStorage`, or `sessionStorage` is used for route-continuity behavior.
 
 ## Generating a background
 
