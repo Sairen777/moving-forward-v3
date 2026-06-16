@@ -14,8 +14,8 @@ export function Header() {
           </span>
         </a>
         <nav class={styles.nav} aria-label="Primary">
-          <a href={routes.writing}>/writing</a>
-          <a href={routes.about}>/about</a>
+          {/*<a href={routes.writing}>/writing</a>*/}
+          {/*<a href={routes.about}>/about</a>*/}
           <ThemeToggle />
         </nav>
       </div>
