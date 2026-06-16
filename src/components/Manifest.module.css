@@ -12,7 +12,7 @@
 
 .row:hover,
 .row:focus-visible {
-  background: rgba(42, 34, 22, 0.03);
+  background: var(--tint-faint);
 }
 
 .row:focus-visible {

@@ -11,4 +11,78 @@
   --article: 40rem;
   --block: 72px;
   --gap: 16px;
+
+  /* Overlay and tint tokens — used by reading veils, header backdrop, code blocks. */
+  --overlay-solid: rgba(255, 255, 255, 0.975);
+  --overlay-high: rgba(255, 255, 255, 0.94);
+  --overlay-mid: rgba(255, 255, 255, 0.92);
+  --overlay-low: rgba(255, 255, 255, 0.8);
+  --overlay-glass: rgba(255, 255, 255, 0.6);
+  --overlay-zero: rgba(255, 255, 255, 0);
+  --tint-faint: rgba(42, 34, 22, 0.03);
+  --tint-light: rgba(42, 34, 22, 0.05);
+}
+
+/* Night field — the same wheat, after dusk. */
+:root[data-theme="dark"] {
+  --paper: #0a1018;
+  --ink: #cbc3b6;
+  --head: #e3ddd3;
+  --dim: #767168;
+  --hair: rgba(190, 180, 165, 0.13);
+  --overlay-solid: rgba(10, 16, 24, 0.97);
+  --overlay-high: rgba(10, 16, 24, 0.94);
+  --overlay-mid: rgba(10, 16, 24, 0.92);
+  --overlay-low: rgba(10, 16, 24, 0.8);
+  --overlay-glass: rgba(10, 16, 24, 0.6);
+  --overlay-zero: rgba(10, 16, 24, 0);
+  --tint-faint: rgba(190, 180, 165, 0.04);
+  --tint-light: rgba(190, 180, 165, 0.06);
+}
+
+/*
+ * Moonlit ASCII field — overrides the generated background.module.css colors.
+ * Sky punctuation becomes scattered stars; warm wheat becomes cool silver.
+ */
+:root[data-theme="dark"] .ascii-color-0 {
+  color: #767b7e;
+}
+:root[data-theme="dark"] .ascii-color-1 {
+  color: #5f6467;
+}
+:root[data-theme="dark"] .ascii-color-2 {
+  color: #4e5358;
+}
+:root[data-theme="dark"] .ascii-color-3 {
+  color: #44484d;
+}
+:root[data-theme="dark"] .ascii-color-4 {
+  color: #101418;
+}
+:root[data-theme="dark"] .ascii-color-5 {
+  color: #171e24;
+}
+:root[data-theme="dark"] .ascii-color-6 {
+  color: #1e282f;
+}
+:root[data-theme="dark"] .ascii-color-7 {
+  color: #263239;
+}
+:root[data-theme="dark"] .ascii-color-8 {
+  color: #2e3d43;
+}
+:root[data-theme="dark"] .ascii-color-9 {
+  color: #3b4b50;
+}
+:root[data-theme="dark"] .ascii-color-10 {
+  color: #4a585b;
+}
+:root[data-theme="dark"] .ascii-color-11 {
+  color: #5a6668;
+}
+:root[data-theme="dark"] .ascii-color-12 {
+  color: #6a7475;
+}
+:root[data-theme="dark"] .ascii-color-13 {
+  color: #7a8282;
 }

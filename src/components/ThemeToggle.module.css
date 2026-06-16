@@ -1,0 +1,20 @@
+.toggle {
+  width: 7ch;
+  padding: 8px 2px;
+  margin: -8px -2px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.toggle:hover,
+.toggle:focus-visible {
+  color: var(--head);
+}

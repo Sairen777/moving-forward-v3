@@ -159,7 +159,13 @@ export function SiteBackground(props: { readonly animate: Accessor<boolean> }) {
   });
 
   return (
-    <div ref={root} class={activeBackgroundStyles.bg} data-ascii-background-root="" aria-hidden="true">
+    <div
+      ref={root}
+      class={activeBackgroundStyles.bg}
+      data-ascii-background-root=""
+      aria-hidden="true"
+      style={{ contain: "strict" }}
+    >
       <NoHydration>
         <For each={initialRows}>
           {(html, row) => (

@@ -24,10 +24,10 @@
   content: "";
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.94) 140px,
-    rgba(255, 255, 255, 0.94) calc(100% - 140px),
-    rgba(255, 255, 255, 0)
+    var(--overlay-zero),
+    var(--overlay-high) 140px,
+    var(--overlay-high) calc(100% - 140px),
+    var(--overlay-zero)
   );
   transform: translateX(-50%);
 }
@@ -52,7 +52,7 @@
 @media (max-width: 1000px) {
   .foot::before {
     width: 100%;
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--overlay-mid);
   }
 }
 

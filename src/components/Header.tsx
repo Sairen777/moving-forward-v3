@@ -1,4 +1,5 @@
 import { routes } from "../lib/routes";
+import { ThemeToggle } from "./ThemeToggle";
 
 import styles from "./Header.module.css";
 
@@ -15,6 +16,7 @@ export function Header() {
         <nav class={styles.nav} aria-label="Primary">
           <a href={routes.writing}>/writing</a>
           <a href={routes.about}>/about</a>
+          <ThemeToggle />
         </nav>
       </div>
     </header>

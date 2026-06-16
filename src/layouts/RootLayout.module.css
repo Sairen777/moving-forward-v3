@@ -19,8 +19,8 @@
   background: linear-gradient(
     180deg,
     var(--paper) 0%,
-    rgba(255, 255, 255, 0.8) 28%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0) 100%
+    var(--overlay-low) 28%,
+    var(--overlay-zero) 60%,
+    var(--overlay-zero) 100%
   );
 }
