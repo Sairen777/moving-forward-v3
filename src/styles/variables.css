@@ -86,3 +86,16 @@
 :root[data-theme="dark"] .ascii-color-13 {
   color: #7a8282;
 }
+
+/*
+ * Bottom fade — dissolve the ASCII field into paper so the
+ * viewport edge blends instead of cropping hard on overscroll.
+ */
+[data-ascii-background-root]::after {
+  position: absolute;
+  inset: auto 0 0;
+  height: 80px;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(to bottom, transparent, var(--paper));
+}

@@ -21,9 +21,7 @@ export default function Home() {
     <>
       <section class={styles.hero}>
         <h1>Let's evolve together.</h1>
-        <p class={styles.lede}>
-          Programming, video games, and productivity — my thoughts, opinions, and the projects I'm currently working on.
-        </p>
+        <div class={styles.lede} />
       </section>
 
       <div class={styles.reading}>
@@ -35,9 +33,8 @@ export default function Home() {
         <section id="about" class={styles.block}>
           <SectionHeader title="about" meta="who & why" />
           <p class={styles.about}>
-            Hi, I'm Alex. I work as a SWE at a big fintech, travel, play video games, and love all things productivity —
-            without being zealous about it. Here I share my thoughts, opinions, and the projects I'm currently working
-            on. Reach out on{" "}
+            Hi, I'm Alex. I work as a SWE. My other interests are history, video games and longevity. Here I share my
+            thoughts, opinions, and the projects I'm currently working on. Reach out on{" "}
             <a href={social.xUrl} target="_blank" rel="noreferrer">
               X ({social.xHandle})
             </a>{" "}
