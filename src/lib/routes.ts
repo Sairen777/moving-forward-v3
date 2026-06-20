@@ -1,5 +1,24 @@
 // Central route + external-link definitions. Import these instead of hardcoding
 // paths so navigation targets live in one place.
+/** Site-level identity used in page titles and RSS feeds. */
+export const SITE_NAME = "moving forward";
+
+/** Canonical base URL. Always HTTPS and no trailing slash. */
+export const BASE_URL = "https://movingforward.dev";
+
+/** Default description used for home-page meta and as a fallback. */
+export const DEFAULT_DESCRIPTION = "A field journal about past, present, and moving forward.";
+
+/** Path to the social preview image (served from /public). */
+export const SOCIAL_IMAGE_PATH = "/social-bg.png";
+
+/** Public path to the RSS feed. */
+export const RSS_PATH = "/rss.xml";
+
+/** Build an absolute URL from a site-relative path. */
+export function absoluteUrl(path: string): string {
+  return `${BASE_URL}${path}`;
+}
 
 export const routes = {
   /** Site root. */

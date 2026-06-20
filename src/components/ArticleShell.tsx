@@ -1,7 +1,7 @@
-import { Meta, Title } from "@solidjs/meta";
+import { Link, Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
 import { createMemo, type ParentProps } from "solid-js";
-import { routes, social } from "../lib/routes";
+import { absoluteUrl, routes, SITE_NAME, SOCIAL_IMAGE_PATH, social } from "../lib/routes";
 
 import styles from "./ArticleShell.module.css";
 import "../styles/MdxComponents.css";
@@ -40,14 +40,20 @@ export function ArticleShell(props: ArticleShellProps) {
     <article>
       {metadata().title && (
         <>
-          <Title>{metadata().title} · moving forward</Title>
+          <Link rel="canonical" href={absoluteUrl(location.pathname)} />
+          <Title>
+            {metadata().title} · {SITE_NAME}
+          </Title>
           <Meta property="og:title" content={metadata().title} />
           <Meta property="og:description" content={metadata().description} />
+          <Meta property="og:url" content={absoluteUrl(location.pathname)} />
+          <Meta property="og:image" content={absoluteUrl(SOCIAL_IMAGE_PATH)} />
           <Meta property="og:type" content="article" />
-          <Meta name="twitter:card" content="summary" />
+          <Meta name="twitter:card" content="summary_large_image" />
           <Meta name="twitter:site" content={social.xHandle} />
           <Meta name="twitter:title" content={metadata().title} />
           <Meta name="twitter:description" content={metadata().description} />
+          <Meta name="twitter:image" content={absoluteUrl(SOCIAL_IMAGE_PATH)} />
         </>
       )}
 

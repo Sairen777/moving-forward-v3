@@ -1,18 +1,9 @@
-import { Manifest, type ManifestPost } from "../components/Manifest";
+import { Manifest } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
-import { articlePath, social } from "../lib/routes";
-import { frontmatter as visualizingLife } from "./writing/visualizing-life.mdx";
+import { POSTS } from "../lib/posts";
+import { social } from "../lib/routes";
 
 import styles from "./index.module.css";
-
-const POSTS: readonly ManifestPost[] = [
-  {
-    slug: "visualizing-life",
-    href: articlePath("visualizing-life"),
-    title: visualizingLife.title!,
-    date: visualizingLife.date!,
-  },
-].sort((a, b) => b.date.localeCompare(a.date));
 
 export default function Home() {
   const entryLabel = POSTS.length === 1 ? "01 entry" : `${POSTS.length.toString().padStart(2, "0")} entries`;

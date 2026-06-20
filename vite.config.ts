@@ -25,7 +25,7 @@ export default defineConfig({
       preset: "static",
       prerender: {
         crawlLinks: true,
-        routes: ["/", "/writing/visualizing-life", "/404"],
+        routes: ["/", "/writing/visualizing-life", "/rss.xml", "/404"],
       },
     }),
   ],

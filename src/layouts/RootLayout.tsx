@@ -1,12 +1,21 @@
 import { useCurrentPageData } from "@kobalte/solidbase/client";
-import { Meta, Title } from "@solidjs/meta";
+import { Link, Meta, Title } from "@solidjs/meta";
 import { useLocation } from "@solidjs/router";
 import { createMemo, type ParentProps } from "solid-js";
 import { ArticleShell } from "../components/ArticleShell";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { SiteBackground } from "../components/SiteBackground";
-import { isArticlePath, routes, social } from "../lib/routes";
+import {
+  absoluteUrl,
+  DEFAULT_DESCRIPTION,
+  isArticlePath,
+  RSS_PATH,
+  routes,
+  SITE_NAME,
+  SOCIAL_IMAGE_PATH,
+  social,
+} from "../lib/routes";
 
 import styles from "./RootLayout.module.css";
 
@@ -43,13 +52,17 @@ export function RootLayout(props: ParentProps) {
       <div class={styles.root}>
         {routeState().isHome && (
           <>
-            <Meta property="og:title" content="moving forward" />
-            <Meta property="og:description" content="A field journal about past, present, and moving forward." />
+            <Link rel="canonical" href={absoluteUrl(routes.home)} />
+            <Meta property="og:title" content={SITE_NAME} />
+            <Meta property="og:description" content={DEFAULT_DESCRIPTION} />
+            <Meta property="og:url" content={absoluteUrl(routes.home)} />
+            <Meta property="og:image" content={absoluteUrl(SOCIAL_IMAGE_PATH)} />
             <Meta property="og:type" content="website" />
-            <Meta name="twitter:card" content="summary" />
+            <Meta name="twitter:card" content="summary_large_image" />
             <Meta name="twitter:site" content={social.xHandle} />
-            <Meta name="twitter:title" content="moving forward" />
-            <Meta name="twitter:description" content="A field journal about past, present, and moving forward." />
+            <Meta name="twitter:title" content={SITE_NAME} />
+            <Meta name="twitter:description" content={DEFAULT_DESCRIPTION} />
+            <Meta name="twitter:image" content={absoluteUrl(SOCIAL_IMAGE_PATH)} />
           </>
         )}
         {routeState().isNotFound && (
@@ -58,6 +71,7 @@ export function RootLayout(props: ParentProps) {
             <Meta name="robots" content="noindex" />
           </>
         )}
+        <Link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} RSS`} href={absoluteUrl(RSS_PATH)} />
         <Header />
         <main class={styles.rail}>
           {routeState().isArticle ? (
