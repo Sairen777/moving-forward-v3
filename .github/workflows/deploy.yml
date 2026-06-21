@@ -3,13 +3,13 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
     inputs:
       ref:
         description: Branch, tag, or commit SHA to deploy
         required: true
-        default: master
+        default: main
 permissions:
   contents: read
 
