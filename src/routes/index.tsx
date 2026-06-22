@@ -6,7 +6,7 @@ import { social } from "../lib/routes";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const entryLabel = POSTS.length === 1 ? "01 entry" : `${POSTS.length.toString().padStart(2, "0")} entries`;
+  // const entryLabel = POSTS.length === 1 ? "01 entry" : `${POSTS.length.toString().padStart(2, "0")} entries`;
 
   return (
     <>
@@ -17,12 +17,12 @@ export default function Home() {
 
       <div class={styles.reading}>
         <section id="writing" class={styles.block}>
-          <SectionHeader title="writing" meta={entryLabel} />
+          <SectionHeader title="writing" meta="" />
           <Manifest posts={POSTS} />
         </section>
 
         <section id="about" class={styles.block}>
-          <SectionHeader title="about" meta="who & why" />
+          <SectionHeader title="about" meta="" />
           <p class={styles.about}>
             Hi, I'm Alex. I work as a SWE. My other interests are history, video games and longevity. Here I share my
             thoughts, opinions, and the projects I'm currently working on. Reach out on{" "}

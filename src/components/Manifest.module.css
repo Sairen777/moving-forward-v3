@@ -1,81 +1,83 @@
 .row {
-  display: grid;
-  grid-template-columns: 11ch 1fr;
-  gap: 16px;
-  align-items: baseline;
-  padding: 18px 2px;
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px dotted var(--hair);
-  transition: background 0.18s;
+    display: grid;
+    grid-template-columns: 11ch 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding: 14px 2px;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--hair);
+    transition: background 0.18s;
 }
 
 .row:hover,
 .row:focus-visible {
-  background: var(--tint-faint);
+    background: var(--tint-faint);
 }
 
 .row:focus-visible {
-  outline: 1px dotted var(--head);
-  outline-offset: -2px;
+    outline: 1px dotted var(--head);
+    outline-offset: -2px;
 }
 
 .rows {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  border-top: 1px dotted var(--hair);
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .date {
-  color: var(--dim);
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  margin-left: 5px;
+    color: var(--dim);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    margin-left: 5px;
 }
 
 .title {
-  color: var(--head);
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -0.008em;
-  text-wrap: balance;
+    color: var(--head);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.008em;
+    text-wrap: balance;
 }
 
 .title::before {
-  color: var(--dim);
-  content: "  ";
-  white-space: pre;
+    color: var(--dim);
+    content: "  ";
+    white-space: pre;
 }
 
 .row:hover .title,
 .row:focus-visible .title {
-  text-decoration: underline;
-  text-decoration-color: var(--dim);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+    text-decoration: underline;
+    text-decoration-color: var(--dim);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
 }
 
 .row:hover .title::before,
 .row:focus-visible .title::before {
-  content: "> ";
+    content: "> ";
 }
 
 @media (max-width: 620px) {
-  .row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 18px 2px;
-  }
+    .row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
 
-  .title {
-    order: -1;
-    font-size: 18px;
-  }
+    .date {
+        font-size: 11px;
+    }
 
-  .title::before {
-    content: "";
-  }
+    .title {
+        order: -1;
+        font-size: 15px;
+    }
+
+    .title::before {
+        content: "";
+    }
 }

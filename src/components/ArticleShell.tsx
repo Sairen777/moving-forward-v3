@@ -25,14 +25,13 @@ export function ArticleShell(props: ArticleShellProps) {
     const parts = location.pathname.split("/").filter(Boolean);
     const frontmatter = props.frontmatter ?? {};
     const date = frontmatter.date ?? "";
-    const tag = frontmatter.tag ?? "";
     const readTime = frontmatter.readTime ?? "";
 
     return {
       slug: parts.at(-1) ?? "writing",
       title: frontmatter.title ?? "",
       description: frontmatter.description ?? "",
-      metaLine: [date, tag, readTime].filter(Boolean).join(" · "),
+      metaLine: [date, readTime].filter(Boolean).join(" · "),
     };
   });
 
@@ -58,9 +57,6 @@ export function ArticleShell(props: ArticleShellProps) {
       )}
 
       <header class={styles.head}>
-        <p class={styles.crumb}>
-          <a href={routes.writing}>/writing</a> / {metadata().slug}
-        </p>
         <p class={styles.meta}>{metadata().metaLine}</p>
         <h1>{metadata().title}</h1>
         {metadata().description && <p class={styles.lede}>{metadata().description}</p>}
