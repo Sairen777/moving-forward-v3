@@ -10,6 +10,9 @@
   --article: 40rem;
   --block: 72px;
   --gap: 16px;
+  --chrome-safe-top: clamp(96px, 13vh, 144px);
+  --chrome-safe-top-mobile: clamp(104px, 14vh, 148px);
+  --section-exit: clamp(56px, 8vh, 96px);
 
   /* Overlay and tint tokens — used by reading veils, header backdrop, code blocks. */
   --overlay-solid: rgba(255, 255, 255, 0.975);

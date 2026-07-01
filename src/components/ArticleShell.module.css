@@ -1,7 +1,7 @@
 .head {
   max-width: var(--article);
   margin-inline: auto;
-  padding: 13vh 24px 7vh;
+  padding: var(--chrome-safe-top) 24px clamp(48px, 7vh, 88px);
 }
 
 .crumb {
@@ -112,7 +112,7 @@
 
 @media (max-width: 620px) {
   .head {
-    padding: 14vh 18px 7vh;
+    padding: var(--chrome-safe-top-mobile) 18px clamp(48px, 7vh, 88px);
   }
 
   .postFoot {

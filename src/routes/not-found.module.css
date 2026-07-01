@@ -1,7 +1,7 @@
 .notFound {
   max-width: 40rem;
   margin-inline: auto;
-  padding: 18vh 24px 20vh;
+  padding: max(var(--chrome-safe-top), 18vh) 24px clamp(80px, 20vh, 180px);
 }
 
 .kicker {
@@ -51,5 +51,7 @@
   .notFound {
     padding-right: 18px;
     padding-left: 18px;
+    padding-top: max(var(--chrome-safe-top-mobile), 18vh);
+    padding-bottom: clamp(80px, 20vh, 180px);
   }
 }

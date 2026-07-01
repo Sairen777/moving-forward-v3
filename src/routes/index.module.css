@@ -1,5 +1,5 @@
 .hero {
-  padding: 13vh 24px 8vh;
+  padding: var(--chrome-safe-top) 24px var(--section-exit);
 }
 
 .hero h1 {
@@ -84,7 +84,7 @@
 
 @media (max-width: 620px) {
   .hero {
-    padding: 14vh 18px 8vh;
+    padding: var(--chrome-safe-top-mobile) 18px var(--section-exit);
   }
 
   .block {
