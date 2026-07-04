@@ -14,7 +14,6 @@ import {
   routes,
   SITE_NAME,
   SOCIAL_IMAGE_PATH,
-  social,
 } from "../lib/routes";
 
 import styles from "./RootLayout.module.css";
@@ -59,7 +58,6 @@ export function RootLayout(props: ParentProps) {
             <Meta property="og:image" content={absoluteUrl(SOCIAL_IMAGE_PATH)} />
             <Meta property="og:type" content="website" />
             <Meta name="twitter:card" content="summary_large_image" />
-            <Meta name="twitter:site" content={social.xHandle} />
             <Meta name="twitter:title" content={SITE_NAME} />
             <Meta name="twitter:description" content={DEFAULT_DESCRIPTION} />
             <Meta name="twitter:image" content={absoluteUrl(SOCIAL_IMAGE_PATH)} />
