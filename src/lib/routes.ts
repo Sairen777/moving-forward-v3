@@ -41,3 +41,9 @@ export function articlePath(slug: string): string {
 export function isArticlePath(pathname: string): boolean {
   return pathname.startsWith(`${WRITING_BASE}/`);
 }
+
+/** External links rendered around the site. */
+export const social = {
+  xUrl: "https://x.com/exlinoa",
+  xHandle: "@exlinoa",
+} as const;

@@ -1,6 +1,7 @@
 import { Manifest } from "../components/Manifest";
 import { SectionHeader } from "../components/SectionHeader";
 import { POSTS } from "../lib/posts";
+import { social } from "../lib/routes";
 
 import styles from "./index.module.css";
 
@@ -24,7 +25,11 @@ export default function Home() {
           <SectionHeader title="about" meta="" />
           <p class={styles.about}>
             Hi, I'm Alex. I work as a SWE. My other interests are history, video games and longevity. Here I share my
-            thoughts, opinions, and the projects I'm currently working on.
+            thoughts, opinions, and the projects I'm currently working on. Reach out on{" "}
+            <a href={social.xUrl} target="_blank" rel="noreferrer">
+              X ({social.xHandle})
+            </a>{" "}
+            if you want to talk.
           </p>
         </section>
       </div>
